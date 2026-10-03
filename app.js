@@ -591,6 +591,7 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
 });
 
 async function initialize() {
+  document.querySelector("#project-report-link").hidden = !location.hostname.endsWith("github.io");
   try {
     const status = await request("/api/auth/status");
     if (status.authenticated) {

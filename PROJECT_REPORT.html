@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <title>Project Report — Spendwise</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24332b;
+      --muted: #68766d;
+      --line: #e2e8df;
+      --paper: #fff;
+      --canvas: #f6f7f2;
+      --forest: #244536;
+      --green: #438262;
+      --orange: #d97855;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font: 15px/1.7 "DM Sans", "Segoe UI", sans-serif;
+    }
+    a { color: var(--green); }
+    .report { width: min(960px, calc(100% - 36px)); margin: 34px auto 60px; }
+    .cover {
+      padding: clamp(30px, 7vw, 70px);
+      border-radius: 22px;
+      background: var(--forest);
+      color: #fff;
+    }
+    .brand { margin: 0 0 42px; color: #b9d5bf; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .cover h1 { max-width: 700px; margin: 0; font-size: clamp(34px, 7vw, 58px); line-height: 1.08; letter-spacing: -.04em; }
+    .cover h1 span { color: #f1a17e; }
+    .cover p { max-width: 600px; margin: 20px 0 0; color: #d3dfd5; }
+    .cover-meta { display: flex; flex-wrap: wrap; gap: 8px 25px; margin-top: 38px; color: #ccdbce; font-size: 12px; }
+    .toolbar { display: flex; justify-content: flex-end; gap: 10px; margin: 16px 0; }
+    .toolbar a, .toolbar button {
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--paper);
+      color: var(--forest);
+      font: inherit;
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .layout { display: grid; grid-template-columns: 205px minmax(0, 1fr); gap: 22px; align-items: start; }
+    .contents, .section {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--paper);
+    }
+    .contents { position: sticky; top: 16px; padding: 20px; }
+    .contents h2 { margin: 0 0 12px; font-size: 13px; }
+    .contents ol { margin: 0; padding-left: 19px; color: var(--muted); font-size: 12px; }
+    .contents li + li { margin-top: 6px; }
+    .contents a { color: inherit; text-decoration: none; }
+    .contents a:hover { color: var(--green); }
+    .sections { display: grid; gap: 14px; }
+    .section { padding: clamp(20px, 4vw, 30px); scroll-margin-top: 20px; }
+    .section h2 { margin: 0 0 12px; font-size: 21px; letter-spacing: -.025em; }
+    .section h3 { margin: 22px 0 7px; font-size: 15px; }
+    .section p { margin: 0 0 12px; color: #4f5e54; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul, .section ol { margin: 8px 0 0; padding-left: 22px; color: #4f5e54; }
+    .section li + li { margin-top: 5px; }
+    .lead { font-size: 17px; }
+    .callout { margin-top: 16px; padding: 14px 16px; border-left: 3px solid var(--orange); background: #fbf5ef; color: #684731; }
+    .table-wrap { overflow-x: auto; margin-top: 12px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+    th, td { padding: 10px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+    code { padding: 2px 5px; border-radius: 4px; background: #f1f4ed; font-size: .9em; overflow-wrap: anywhere; }
+    .footer { margin-top: 22px; color: var(--muted); text-align: center; font-size: 11px; }
+    @media (max-width: 700px) {
+      .report { width: min(100% - 24px, 600px); margin-top: 12px; }
+      .cover { border-radius: 16px; }
+      .brand { margin-bottom: 28px; }
+      .layout { grid-template-columns: 1fr; }
+      .contents { position: static; }
+      .contents ol { columns: 2; }
+    }
+    @media print {
+      @page { margin: 16mm; }
+      body { background: #fff; font-size: 11pt; }
+      .report { width: 100%; margin: 0; }
+      .cover { border-radius: 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar, .contents { display: none; }
+      .layout { display: block; }
+      .sections { gap: 10px; }
+      .section { break-inside: avoid; padding: 17px; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="report">
+    <header class="cover">
+      <p class="brand">Spendwise · Project report</p>
+      <h1>Personal Expense<br>Tracker<span>.</span></h1>
+      <p>A responsive expense diary for recording spending, organizing categories, and reviewing personal finance activity.</p>
+      <div class="cover-meta">
+        <span>Prepared: 3 October 2026</span>
+        <span>Author: Soundarya Umesh Barigidad</span>
+        <span>Currency: Indian rupees (INR)</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <a href="./">Open dashboard</a>
+      <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="layout">
+      <nav class="contents" aria-label="Report contents">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#summary">Executive summary</a></li>
+          <li><a href="#problem">Problem and objectives</a></li>
+          <li><a href="#scope">Scope</a></li>
+          <li><a href="#technology">Technology</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#data">Data and validation</a></li>
+          <li><a href="#security">Security and privacy</a></li>
+          <li><a href="#deployment">Deployment</a></li>
+          <li><a href="#testing">Testing</a></li>
+          <li><a href="#limitations">Limitations</a></li>
+          <li><a href="#future">Future work</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ol>
+      </nav>
+
+      <div class="sections">
+        <section class="section" id="summary">
+          <h2>1. Executive summary</h2>
+          <p class="lead">Spendwise is a personal expense-tracking application with a modern, responsive web dashboard and a Java HTTP server.</p>
+          <p>Users can create and maintain expense entries, organize them with categories, search and filter the transaction diary, and review totals and category breakdowns. In the local edition, the Java server validates requests and stores data on the user's machine. A static edition is published through GitHub Pages for demonstration; that edition stores its own data in the current browser and has no shared backend.</p>
+        </section>
+
+        <section class="section" id="problem">
+          <h2>2. Problem and objectives</h2>
+          <p>Personal purchases are easy to forget, and a list of transactions alone does not make spending patterns easy to understand. Spendwise provides one place to record expenses and a visual summary that helps a user inspect spending by date and category.</p>
+          <h3>Project objectives</h3>
+          <ul>
+            <li>Make adding, editing, and removing an expense straightforward.</li>
+            <li>Summarize spending and provide a category breakdown.</li>
+            <li>Support search and date/category filters for the transaction history.</li>
+            <li>Keep the primary desktop and mobile experiences responsive and accessible.</li>
+            <li>Offer a locally run Java version and a clearly identified static web demo.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="scope">
+          <h2>3. Project scope</h2>
+          <p>The project covers an individual user's expense diary: expense entry and maintenance, category management, filtering, summary metrics, local persistence, and a browser-based interface. The Java server binds to the loopback interface and is intended for use on the local machine.</p>
+          <p>The GitHub Pages version demonstrates the interface and core interactions without a server. It is isolated to a browser profile and is not a multi-user finance service.</p>
+        </section>
+
+        <section class="section" id="technology">
+          <h2>4. Technology and requirements</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Area</th><th>Technology / requirement</th><th>Role</th></tr></thead>
+              <tbody>
+                <tr><td>Server</td><td>Java 21 or newer; JDK HTTP server</td><td>Serves static assets, exposes JSON endpoints, validates and persists local data.</td></tr>
+                <tr><td>Interface</td><td>HTML, CSS, vanilla JavaScript</td><td>Responsive dashboard, forms, charts, filters, and browser interaction.</td></tr>
+                <tr><td>Persistence</td><td>Local TSV file; browser local storage on Pages</td><td>Stores categories and expense records in the selected runtime.</td></tr>
+                <tr><td>Build</td><td>JDK tools; no external Java dependencies</td><td>Compile and run the standalone server.</td></tr>
+                <tr><td>Display</td><td>Modern desktop or mobile browser</td><td>Runs the local interface or public static demonstration.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="architecture">
+          <h2>5. Application architecture</h2>
+          <ol>
+            <li><strong>Presentation:</strong> <code>index.html</code> defines the login screen, dashboard, expense form, and category form. <code>styles.css</code> provides responsive layouts and visual styling. <code>app.js</code> handles rendering and user actions.</li>
+            <li><strong>Application/API:</strong> <code>ExpenseTrackerServer.java</code> serves the frontend and exposes authentication, dashboard, expense, and category endpoints as JSON.</li>
+            <li><strong>Business/data layer:</strong> server-side logic validates expense and category input, applies filters, calculates totals, and stores data.</li>
+            <li><strong>Deployment modes:</strong> local mode uses Java APIs and the local data file; GitHub Pages mode uses browser storage through a client-side adapter.</li>
+          </ol>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>/api/auth/status</code></td><td>Reports whether setup is needed and whether the current session is authenticated.</td></tr>
+                <tr><td><code>/api/auth/setup</code>, <code>/api/auth/login</code>, <code>/api/auth/logout</code></td><td>Set up the local diary password, start a session, or lock the diary.</td></tr>
+                <tr><td><code>/api/dashboard</code></td><td>Returns filtered entries, spending summaries, and category totals.</td></tr>
+                <tr><td><code>/api/expenses</code></td><td>Creates, updates, and deletes expense records.</td></tr>
+                <tr><td><code>/api/categories</code></td><td>Creates and removes expense categories.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="features">
+          <h2>6. Implemented features</h2>
+          <ul>
+            <li>Overview of total spending, current-month spending, transaction count, and category count.</li>
+            <li>Category spending visualization with totals and proportional indicators.</li>
+            <li>Create, edit, and delete expenses with description, amount, category, date, and optional time.</li>
+            <li>Search transactions and filter by category or date range; clear filters in one action.</li>
+            <li>Create and manage categories; categories in use cannot be removed.</li>
+            <li>Local login/setup flow with password visibility controls and a lock action.</li>
+            <li>Responsive dashboard and login experience, with keyboard focus styles and reduced-motion support.</li>
+            <li>Clear validation feedback and status messages for user actions.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="data">
+          <h2>7. Data model and validation</h2>
+          <p>An expense record contains an identifier, ISO-formatted date, optional time, positive amount, category, and description. Categories are stored separately and each saved expense must reference an existing category.</p>
+          <p>The Java implementation checks date/time formats, requires positive amounts with at most two decimal places, limits text lengths, checks category membership, and rejects an inverted date range. Local data is written through a temporary file and replaced atomically where the file system supports it.</p>
+          <p>Currency formatting is set to INR. The transaction diary includes date and time grouping to make the list easier to scan.</p>
+        </section>
+
+        <section class="section" id="security">
+          <h2>8. Security and privacy</h2>
+          <p><strong>Local Java edition:</strong> the server binds to <code>127.0.0.1</code>. The account password is stored as a salted PBKDF2-HMAC-SHA-256 derived value (310,000 iterations, 256-bit output) in a separate local credentials file. Sessions use a random token in an HttpOnly, SameSite=Strict cookie with a 12-hour expiry.</p>
+          <div class="callout"><strong>GitHub Pages warning:</strong> a static website cannot run the Java server. The hosted demo keeps a password hash and expense data in browser storage, which is not secure authentication and does not protect data from someone with access to that browser. Do not use the public demo for sensitive financial information.</div>
+          <p>The Pages demo does not upload expense entries to the repository or share them with other visitors; browser storage is local to the visitor's browser profile. Clearing that browser's site data can remove the demo data.</p>
+        </section>
+
+        <section class="section" id="deployment">
+          <h2>9. Deployment and usage</h2>
+          <h3>Run the local Java application</h3>
+          <ol>
+            <li>Install JDK 21 or newer.</li>
+            <li>From the project root, compile and start the server:</li>
+          </ol>
+          <p><code>javac -d out src\main\java\com\expense\tracker\ExpenseTrackerServer.java</code></p>
+          <p><code>java -cp out com.expense.tracker.ExpenseTrackerServer</code></p>
+          <p>Open <code>http://localhost:8080</code>. By default, the local data file is stored in the user's application data directory. The <code>expense.data</code> Java property or <code>EXPENSE_TRACKER_DATA</code> environment variable can select a different path.</p>
+          <h3>Open the public demonstration</h3>
+          <p><a href="https://24u0669-prog.github.io/Soundarya_Week-4/">Spendwise GitHub Pages dashboard</a>. The Pages deployment publishes static frontend files from the repository's main branch; it does not host the Java API.</p>
+        </section>
+
+        <section class="section" id="testing">
+          <h2>10. Testing and verification</h2>
+          <ul>
+            <li>The Java server was compiled with JDK 25, and the local server and dashboard were launched for browser verification.</li>
+            <li>The login page, password visibility/reset behavior, dashboard rendering, and responsive layouts were checked in the browser.</li>
+            <li>The GitHub Pages deployment for commit <code>efa88d1</code> completed successfully, and the hosted dashboard was verified to load.</li>
+            <li>The repository also contains Python unit tests for the retained legacy console tracker. Those tests cover persistence, category operations, filters, edits/deletions, and invalid input; they are not a Java web-server test suite.</li>
+          </ul>
+          <p>Dedicated automated tests for the Java API and static Pages storage adapter are recommended as a next quality step.</p>
+        </section>
+
+        <section class="section" id="limitations">
+          <h2>11. Known limitations</h2>
+          <ul>
+            <li>The Java edition is a single-user, local application; it does not provide remote access, cloud synchronization, or shared accounts.</li>
+            <li>The Pages demo's browser-local password is only a convenience gate and is not a security boundary.</li>
+            <li>Demo data is separate per browser and device, with no server-side backup or synchronization.</li>
+            <li>Budgets, recurring transactions, export/report generation from transaction records, and multi-currency support are not part of the current implementation.</li>
+            <li>The project has a legacy Python test suite, but does not yet provide equivalent automated coverage for the Java application.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="future">
+          <h2>12. Future enhancements</h2>
+          <ul>
+            <li>Add automated Java API and browser end-to-end tests.</li>
+            <li>If shared online access is required, add a properly hosted backend, user authorization, and secure database rather than extending static browser storage.</li>
+            <li>Add CSV export, monthly budgets, recurring expenses, and optional charts over longer time periods.</li>
+            <li>Provide a guided data backup and restore workflow for the local edition.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="conclusion">
+          <h2>13. Conclusion</h2>
+          <p>Spendwise brings everyday expense entry and review into a clean dashboard, while keeping the local Java edition independent of third-party runtime services. The GitHub Pages edition makes the interface easy to access as a demo, with an explicit distinction between browser-only storage and the password-protected local application. The foundation is suitable for continued development, especially automated testing and a secure hosted backend if multi-device access becomes a requirement.</p>
+        </section>
+      </div>
+    </div>
+    <footer class="footer">Spendwise · Personal Expense Tracker · Project report</footer>
+  </main>
+</body>
+</html>
