@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>Spendwise — Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="auth-screen" id="auth-screen" hidden>
+    <section class="auth-story" aria-label="About Spendwise">
+      <a class="brand auth-brand" href="./" aria-label="Spendwise home">
+        <span class="brand-icon">S</span><span>spendwise<span class="brand-dot">.</span></span>
+      </a>
+      <div class="auth-story-copy">
+        <span class="auth-kicker"><span class="live-dot"></span> YOUR MONEY, YOUR STORY</span>
+        <h1>A little more mindful.<br>A lot more <em>you.</em></h1>
+        <p>A calm space to keep every purchase, every moment, and every little win in one place.</p>
+      </div>
+      <div class="auth-note">
+        <span class="auth-note-icon">↳</span>
+        <span id="auth-note-text">Private by design. Your diary stays on this computer.</span>
+      </div>
+      <div class="auth-orbit auth-orbit-one"></div>
+      <div class="auth-orbit auth-orbit-two"></div>
+    </section>
+    <section class="auth-panel">
+      <div class="auth-panel-inner">
+        <div class="auth-mark">S</div>
+        <p class="eyebrow" id="auth-eyebrow">YOUR PERSONAL SPACE</p>
+        <h2 id="auth-title">Welcome back</h2>
+        <p class="auth-intro" id="auth-intro">Sign in to open your transaction diary.</p>
+        <form id="auth-form">
+          <label for="auth-password">Password</label>
+          <div class="password-field">
+            <input id="auth-password" name="password" type="password" autocomplete="current-password" required maxlength="1024" placeholder="Enter your password">
+            <button class="password-toggle" type="button" data-password-toggle="auth-password" aria-label="Show password" aria-pressed="false">Show</button>
+          </div>
+          <div class="auth-confirm-row" id="auth-confirm-row" hidden>
+            <label for="auth-confirm-password">Confirm password</label>
+            <div class="password-field">
+              <input id="auth-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" maxlength="1024" placeholder="Enter it once more">
+              <button class="password-toggle" type="button" data-password-toggle="auth-confirm-password" aria-label="Show confirm password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+          <p class="form-error auth-error" id="auth-error" role="alert" aria-live="polite"></p>
+          <button class="primary-button auth-submit" id="auth-submit" type="submit">Open my diary <span>→</span></button>
+        </form>
+        <p class="auth-local-note"><span>◆</span> <span id="auth-storage-note">Your entries are stored locally on this device.</span></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-root" hidden>
+  <aside class="demo-banner" id="demo-banner" role="note" hidden>
+    Public demo: your data stays in this browser. The password is not secure—do not enter sensitive information.
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./" aria-label="Spendwise home">
+          <span class="brand-icon">S</span><span>spendwise<span class="brand-dot">.</span></span>
+        </a>
+        <nav class="nav-list" aria-label="Main navigation">
+          <a class="nav-item active" href="#overview">Overview</a>
+          <a class="nav-item" href="#transactions">Transactions</a>
+          <a class="nav-item" href="#categories">Categories</a>
+        </nav>
+        <div class="top-actions">
+          <span class="today-pill"><span class="live-dot"></span> <span id="today-label">Your finances</span></span>
+          <button class="icon-button" id="refresh-button" aria-label="Refresh dashboard" title="Refresh dashboard">↻</button>
+          <div class="avatar small-avatar" aria-label="Personal account">S</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content" id="overview">
+      <section class="welcome-row overview-hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A FRESH LOOK AT YOUR FINANCES</p>
+          <h1 id="page-title">Spend with intention<span class="wave">.</span></h1>
+          <p class="subtitle">See where your money goes. Make every next move count.</p>
+          <div class="hero-actions">
+            <span class="hero-date"><span class="live-dot"></span><span id="hero-date">Your personal overview</span></span>
+            <button class="primary-button" id="open-expense"><span>＋</span> Add expense</button>
+          </div>
+          <div class="hero-spending">
+            <div>
+              <span class="hero-metric-label">SPENT THIS MONTH</span>
+              <strong class="hero-month-amount" id="month-spending">₹0</strong>
+            </div>
+            <div class="hero-change-wrap">
+              <span class="trend neutral" id="month-change">—</span>
+              <span class="hero-change-label">vs previous month</span>
+            </div>
+          </div>
+        </div>
+
+        <section class="hero-category" id="categories" aria-labelledby="category-title">
+          <div class="hero-category-heading">
+            <div><p class="eyebrow">THE BREAKDOWN</p><h2 id="category-title">Spending mix</h2></div>
+            <button class="icon-button subtle" id="add-category-button" aria-label="Add category" title="Add category">＋</button>
+          </div>
+          <div class="hero-category-content">
+            <div class="category-donut" id="category-donut" role="img" aria-label="Expense category distribution">
+              <div class="category-donut-center"><span class="category-total-label">FILTERED TOTAL</span><strong id="category-total">₹0</strong></div>
+            </div>
+            <div class="category-list" id="category-list"></div>
+          </div>
+          <div class="category-manage">
+            <span>Keep things organized</span>
+            <button id="manage-categories">Manage categories <span>↗</span></button>
+          </div>
+        </section>
+      </section>
+
+      <section class="stats-grid" aria-label="Spending summary">
+        <article class="stat-card total-card">
+          <div class="stat-top"><span class="stat-icon violet">₹</span><span class="stat-label">TOTAL SPENDING</span><span class="stat-menu">···</span></div>
+          <div class="stat-value" id="total-spending">₹0</div>
+          <div class="stat-foot"><span class="stat-helper">Matches your selected filters</span></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-icon mint">↗</span><span class="stat-label">TRANSACTIONS</span><span class="stat-menu">···</span></div>
+          <div class="stat-value" id="transaction-count">0</div>
+          <div class="stat-foot"><span class="stat-helper"><b id="shown-count">0</b> matching transactions</span></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-icon peach">▦</span><span class="stat-label">CATEGORIES</span><span class="stat-menu">···</span></div>
+          <div class="stat-value" id="category-count">0</div>
+          <div class="stat-foot"><span class="stat-helper">Ways to organize your spending</span></div>
+        </article>
+      </section>
+
+      <section class="content-grid ledger-layout">
+        <article class="panel transactions-panel" id="transactions">
+          <div class="panel-heading">
+            <div><p class="eyebrow">YOUR PERSONAL LEDGER</p><h2>Transaction diary</h2></div>
+            <button class="text-button" id="clear-filters">Clear filters <span>↗</span></button>
+          </div>
+          <div class="filters">
+            <label class="search-box"><span>⌕</span><input id="search-filter" type="search" placeholder="Search transactions..." autocomplete="off"></label>
+            <select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select>
+            <input id="from-filter" type="date" aria-label="From date">
+            <input id="to-filter" type="date" aria-label="To date">
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>TIME</th><th class="amount-heading">AMOUNT</th><th></th></tr></thead>
+              <tbody id="expense-rows"></tbody>
+            </table>
+            <div class="empty-state" id="empty-state">
+              <div class="empty-illustration">₹</div>
+              <h3>Your story starts here</h3>
+              <p>Add your first expense to see your spending patterns come to life.</p>
+              <button class="text-button" id="empty-add">＋ Add your first expense</button>
+            </div>
+          </div>
+          <div class="table-footer"><span id="table-caption">No transactions yet</span><span class="secure-label"><span>●</span> Private &amp; secure</span></div>
+        </article>
+
+      </section>
+
+      <footer class="page-footer"><span>Every entry, in its own time.</span><span>Spendwise <span class="footer-dot">●</span> Personal transaction diary</span></footer>
+      <button class="logout-button" id="logout-button" type="button">Lock diary <span>↗</span></button>
+    </main>
+  </div>
+
+  <dialog id="expense-dialog" class="dialog">
+    <form id="expense-form">
+      <div class="dialog-heading"><div><p class="eyebrow">KEEP IT SIMPLE</p><h2 id="form-title">Add an expense</h2></div><button type="button" class="dialog-close" data-close aria-label="Close">×</button></div>
+      <input type="hidden" name="id">
+      <label>Description<input name="description" required maxlength="200" placeholder="e.g. Coffee with a friend"></label>
+      <div class="form-three">
+        <label>Amount<input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
+        <label>Date<input name="date" type="date" required></label>
+        <label>Time<input name="time" type="time" step="60"></label>
+      </div>
+      <p class="time-help">Add when it happened. Older entries without a saved time stay marked as not recorded.</p>
+      <label>Category<div class="category-entry"><select name="category" required></select><button type="button" id="inline-add-category" title="Create a category">＋</button></div></label>
+      <p class="form-error" id="form-error" role="alert"></p>
+      <div class="dialog-actions"><button type="button" class="secondary-button" data-close>Cancel</button><button type="submit" class="primary-button" id="save-expense">Save expense <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <dialog id="category-dialog" class="dialog compact-dialog">
+    <form id="category-form">
+      <div class="dialog-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>New category</h2></div><button type="button" class="dialog-close" data-close aria-label="Close">×</button></div>
+      <label>Category name<input name="name" required maxlength="40" placeholder="e.g. Wellness"></label>
+      <p class="form-error" id="category-error" role="alert"></p>
+      <div class="dialog-actions"><button type="button" class="secondary-button" data-close>Cancel</button><button type="submit" class="primary-button">Create category <span>→</span></button></div>
+    </form>
+    <div class="category-manager">
+      <p class="eyebrow">EXISTING CATEGORIES</p>
+      <div id="category-items"></div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

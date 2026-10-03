@@ -43,6 +43,12 @@ Currency is currently displayed in Indian rupees (INR). The dashboard is intende
 for personal use on the local machine. The password protects access to the diary
 on this machine; it is not intended to provide remote-access controls.
 
+## GitHub Pages demo
+
+The static dashboard stores expenses and a password hash only in this browser.
+It does not use the Java backend or synchronize data across visitors or devices.
+Its client-side password is not secure; do not enter sensitive information.
+
 ## Legacy console version
 
 The original Python console implementation remains in `expense_tracker.py`. Its
